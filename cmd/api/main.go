@@ -16,7 +16,13 @@ func newRouter() http.Handler {
 
 func main() {
 	router := newRouter()
-	log.Fatal(http.ListenAndServe(":8080", router))
+	address := ":8080"
+	srv := &http.Server{
+		Addr:    address,
+		Handler: router,
+	}
+	log.Printf("Starting server on %s", address)
+	log.Fatal(srv.ListenAndServe())
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
